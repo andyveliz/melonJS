@@ -17,6 +17,8 @@ var game = {
             alert("Sorry but your browser does not support html 5 canvas. Please try with another one!");
             return;
         }
+        // disable interpolation when scaling
+        me.video.setImageSmoothing(false);
 
         // Run fast!
         me.sys.useNativeAnimFrame = true;

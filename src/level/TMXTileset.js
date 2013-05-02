@@ -44,7 +44,7 @@
 		 */
 		tileId : null,
 		
-		/** @ignore */
+		/** @private */
 		init : function(x, y, w, h, gid) {
 			this.parent(new me.Vector2d(x * w, y * h), w, h);
 			
@@ -258,7 +258,7 @@
 		
 		/**
 		 * set the tile properties
-		 * @ignore
+		 * @private
 		 * @function
 		 */
 		setTileProperty : function(gid, prop) {
@@ -335,7 +335,7 @@
 		
 		/**
 		 * return the x offset of the specified tile in the tileset image
-		 * @ignore
+		 * @private
 		 */
 		getTileOffsetX : function(tileId) {
 			if (this.tileXOffset[tileId] == null) {
@@ -346,7 +346,7 @@
 		
 		/**
 		 * return the y offset of the specified tile in the tileset image
-		 * @ignore
+		 * @private
 		 */
 		getTileOffsetY : function(tileId) {
 			if (this.tileYOffset[tileId] == null) {

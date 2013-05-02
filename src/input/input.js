@@ -9,8 +9,9 @@
 
 	/**
 	 * There is no constructor function for me.input.
-	 * @namespace me.input
+	 * @final
 	 * @memberOf me
+	 * @constructor Should not be called by the user.
 	 */
 	me.input = (function() {
 
@@ -46,7 +47,7 @@
 		
 		/**
 		 * enable keyboard event
-		 * @ignore
+		 * @private
 		 */
 
 		function enableKeyboardEvent() {
@@ -59,7 +60,7 @@
 		
 		/**
 		 * enable mouse event
-		 * @ignore
+		 * @private
 		 */
 		function enableMouseEvent() {
 			if (!mouseInitialized) {
@@ -89,7 +90,7 @@
 
 		/**
 		 * prevent event propagation
-		 * @ignore
+		 * @private
 		 */
 		function preventDefault(e) {
 			// stop event propagation
@@ -112,7 +113,7 @@
 
 		/**
 		 * key down event
-		 * @ignore
+		 * @private
 		 */
 		function keydown(e, keyCode) {
 
@@ -137,7 +138,7 @@
 
 		/**
 		 * key up event
-		 * @ignore
+		 * @private
 		 */
 		function keyup(e, keyCode) {
 
@@ -160,7 +161,7 @@
 		
 		/**
 		 * propagate mouse event to registed object 
-		 * @ignore
+		 * @private
 		 */
 		function dispatchMouseEvent(e) {
 			var handled = false;
@@ -198,7 +199,7 @@
 		
 		/**
 		 * translate Mouse Coordinates
-		 * @ignore
+		 * @private
 		 */
 		function updateCoordFromEvent(e) {
 
@@ -237,7 +238,7 @@
 	
 		/**
 		 * mouse event management (mousewheel)
-		 * @ignore
+		 * @private
 		 */
 		function onMouseWheel(e) {
 			if (e.target == me.video.getScreenCanvas()) {
@@ -254,7 +255,7 @@
 		
 		/**
 		 * mouse event management (mousemove)
-		 * @ignore
+		 * @private
 		 */
 		function onMouseMove(e) {
 			// update position
@@ -270,7 +271,7 @@
 		
 		/**
 		 * mouse event management (mousedown, mouseup)
-		 * @ignore
+		 * @private
 		 */
 		function onMouseEvent(e) {
 			// dispatch event to registered objects
@@ -295,7 +296,7 @@
 		
 		/**
 		 * mouse event management (touchstart, touchend)
-		 * @ignore
+		 * @private
 		 */
 		function onTouchEvent(e) {
 			// update the new touch position
@@ -308,7 +309,7 @@
 		 * event management (Accelerometer)
 		 * http://www.mobilexweb.com/samples/ball.html
 		 * http://www.mobilexweb.com/blog/safari-ios-accelerometer-websockets-html5
-		 * @ignore		
+		 * @private		
 		 */
 		function onDeviceMotion(e) {
 			// Accelerometer information  
@@ -326,8 +327,7 @@
 		 * properties : x, y, z
 		 * @public
 		 * @enum {number}
-		 * @name accel
-		 * @memberOf me.input
+		 * @name me.input#accel
 		 */
 		obj.accel = {
 			x: 0, 
@@ -344,8 +344,7 @@
 		 * RIGHT : constant for right button <br>
 		 * @public
 		 * @enum {number}
-		 * @name mouse
-		 * @memberOf me.input
+		 * @name me.input#mouse
 		 */		
 		 obj.mouse = {
 			// mouse position
@@ -369,8 +368,7 @@
 		 * id : unique finger identifier<br>
 		 * @public
 		 * @type Array
-		 * @name touches
-		 * @memberOf me.input
+		 * @name me.input#touches
 		 */		
 		obj.touches = [];
 		
@@ -379,8 +377,7 @@
 		 * LEFT, UP, RIGHT, DOWN, ENTER, SHIFT, CTRL, ALT, PAUSE, ESC, ESCAPE, [0..9], [A..Z]
 		 * @public
 		 * @enum {number}
-		 * @name KEY
-		 * @memberOf me.input
+		 * @name me.input#KEY
 		 */
 		obj.KEY = {
 			'LEFT' : 37,
@@ -434,8 +431,7 @@
 
 		/**
 		 * return the key press status of the specified action
-		 * @name isKeyPressed
-		 * @memberOf me.input
+		 * @name me.input#isKeyPressed
 		 * @public
 		 * @function
 		 * @param {String} action user defined corresponding action
@@ -466,8 +462,7 @@
 
 		/**
 		 * return the key status of the specified action
-		 * @name keyStatus
-		 * @memberOf me.input
+		 * @name me.input#keyStatus
 		 * @public
 		 * @function
 		 * @param {String} action user defined corresponding action
@@ -481,8 +476,7 @@
 		
 		/**
 		 * trigger the specified key (simulated) event <br>
-		 * @name triggerKeyEvent
-		 * @memberOf me.input
+		 * @name me.input#triggerKeyEvent
 		 * @public
 		 * @function
 		 * @param {me.input#KEY} keycode
@@ -504,8 +498,7 @@
 		
 		/**
 		 * associate a user defined action to a keycode
-		 * @name bindKey
-		 * @memberOf me.input
+		 * @name me.input#bindKey
 		 * @public
 		 * @function
 		 * @param {me.input#KEY} keycode
@@ -530,8 +523,7 @@
 		
 		/**
 		 * unlock a key manually
-		 * @name unlockKey
-		 * @memberOf me.input
+		 * @name me.input#unlockKey
 		 * @public
 		 * @function
 		 * @param {String} action user defined corresponding action
@@ -547,8 +539,7 @@
 		
 		/**
 		 * unbind the defined keycode
-		 * @name unbindKey
-		 * @memberOf me.input
+		 * @name me.input#unbindKey
 		 * @public
 		 * @function
 		 * @param {me.input#KEY} keycode
@@ -568,8 +559,7 @@
 		 * Left button – 0
 		 * Middle button – 1
 		 * Right button – 2
-		 * @name bindMouse
-		 * @memberOf me.input
+		 * @name me.input#bindMouse
 		 * @public
 		 * @function
 		 * @param {Integer} button (accordingly to W3C values : 0,1,2 for left, middle and right buttons)
@@ -593,8 +583,7 @@
 		};
 		/**
 		 * unbind the defined keycode
-		 * @name unbindMouse
-		 * @memberOf me.input
+		 * @name me.input#unbindMouse
 		 * @public
 		 * @function
 		 * @param {Integer} button (accordingly to W3C values : 0,1,2 for left, middle and right buttons)
@@ -608,8 +597,7 @@
 		
 		/**
 		 * Associate a touch action to a keycode
-		 * @name bindTouch
-		 * @memberOf me.input
+		 * @name me.input#bindTouch
 		 * @public
 		 * @function
 		 * @param {me.input#KEY} keyCode
@@ -628,8 +616,7 @@
 		
 		/**
 		 * unbind the defined touch binding
-		 * @name unbindTouch
-		 * @memberOf me.input
+		 * @name me.input#unbindTouch
 		 * @public
 		 * @function
 		 * @example
@@ -645,8 +632,7 @@
 		/**
 		 * register on a mouse event for a given region
 		 * note : on a touch enabled device mouse event will automatically be converted to touch event
-		 * @name registerMouseEvent
-		 * @memberOf me.input
+		 * @name me.input#registerMouseEvent
 		 * @public
 		 * @function
 		 * @param {String} eventType ('mousemove','mousedown','mouseup','mousewheel','touchstart','touchmove','touchend')
@@ -692,8 +678,7 @@
 		/**
 		 * release the previously registered mouse event callback
 		 * note : on a touch enabled device mouse event will automatically be converted to touch event
-		 * @name releaseMouseEvent
-		 * @memberOf me.input
+		 * @name me.input#releaseMouseEvent
 		 * @public
 		 * @function
 		 * @param {String} eventType ('mousemove', 'mousedown', 'mouseup', 'mousewheel', 'click', 'dblclick', 'touchstart', 'touchmove', 'touchend', 'tap', 'dbltap')
@@ -733,8 +718,7 @@
 
 		/**
 		 * watch Accelerator event 
-		 * @name watchAccelerometer
-		 * @memberOf me.input
+		 * @name me.input#watchAccelerometer
 		 * @public
 		 * @function
 		 * @return {boolean} false if not supported by the device
@@ -753,8 +737,7 @@
 		
 		/**
 		 * unwatch Accelerometor event 
-		 * @name unwatchAccelerometer
-		 * @memberOf me.input
+		 * @name me.input#unwatchAccelerometer
 		 * @public
 		 * @function
 		 */

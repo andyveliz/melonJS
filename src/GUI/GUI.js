@@ -15,10 +15,6 @@
 	 * @class
 	 * @extends me.SpriteObject
 	 * @memberOf me
-	 * @constructor
-	 * @param {Number} x the x coordinate of the GUI Object
-	 * @param {Number} y the y coordinate of the GUI Object
-	 * @param {me.ObjectSettings} settings Object settings
 	 * @example
 	 *
 	 * // create a basic GUI Object
@@ -63,7 +59,8 @@
 		updated : false,
 
 		/**
-		 * @ignore
+		 * @Constructor
+		 * @private
 		 */
 		 init : function(x, y, settings) {
 			this.parent(x, y, 
@@ -81,7 +78,7 @@
 
 		/**
 		 * return true if the object has been clicked
-		 * @ignore
+		 * @private
 		 */
 		update : function() {
 			if (this.updated) {
@@ -94,7 +91,7 @@
 		
 		/**
 		 * function callback for the mousedown event
-		 * @ignore
+		 * @private
 		 */
 		clicked : function() {
 			if (this.isClickable) {
@@ -107,8 +104,6 @@
 		 * function called when the object is clicked <br>
 		 * to be extended <br>
 		 * return true if we need to stop propagating the event
-		 * @name onClick
-		 * @memberOf me.GUI_Object
 		 * @public
 		 * @function
 		 */
@@ -121,10 +116,6 @@
 		 * OnDestroy notification function<br>
 		 * Called by engine before deleting the object<br>
 		 * be sure to call the parent function if overwritten
-		 * @name onDestroyEvent
-		 * @memberOf me.GUI_Object
-		 * @public
-		 * @function
 		 */
 		onDestroyEvent : function() {
 			me.input.releaseMouseEvent('mousedown', this);

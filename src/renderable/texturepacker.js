@@ -9,7 +9,7 @@
 
 	/**
 	 * a local constant for the -(Math.PI / 2) value
-	 * @ignore
+	 * @private
 	 */
 	var nhPI = -(Math.PI / 2);
 
@@ -19,8 +19,8 @@
 	 * @extends Object
 	 * @memberOf me
 	 * @constructor
-	 * @param {Object} atlas atlas information. See {@link me.loader#getAtlas}
-	 * @param {Image} [texture=atlas.meta.image] texture name
+	 * @param {Object} atlas atlas information
+	 * @param {Image} [texture] texture (texture name from the atlas will be used if not specified)
 	 * @example
 	 * // create a texture atlas
 	 * texture = new me.TextureAtlas (
@@ -31,22 +31,13 @@
 	me.TextureAtlas = Object.extend(
 	/** @scope me.TextureAtlas.prototype */
 	{
-		/**
-		 * to identify the atlas format (e.g. texture packer)
-		 * @ignore
-		 */
+		// to identify the atlas format (e.g. texture packer)
 		format: null,
 		
-		/**
-		 * the image texture itself
-		 * @ignore
-		 */
+		// the image texture itself
 		texture : null,		
 		
-		/**
-		 * the atlas dictionnary
-		 * @ignore
-		 */
+		// the atlas dictionnary
 		atlas: null,
 
 		/**
@@ -76,7 +67,7 @@
 		},
 		
 		/**
-		 * @ignore
+		 * @private
 		 */
 		initFromTexturePacker : function (data) {
 			var atlas = {};
@@ -100,45 +91,8 @@
 		},
 		
 		/**
-		 * return the Atlas texture
-		 * @name getTexture
-		 * @memberOf me.TextureAtlas
-		 * @function
-		 * @return {Image}
-		 */
-		getTexture : function() {
-			return this.texture;
-		},
-		
-		/**
-		 * return a normalized region/frame information for the specified sprite name
-		 * @name getRegion
-		 * @memberOf me.TextureAtlas
-		 * @function
-		 * @param {String} name name of the sprite
-		 * @return {Object}
-		 */
-		getRegion : function(name) {
-			var region = this.atlas[name];
-			if (region) {
-				return {
-					name: name, // frame name
-					pos: region.source.pos.clone(), // unused for now
-					offset: region.frame.pos.clone(),
-					width: region.frame.width,
-					height: region.frame.height,
-					angle : (region.rotated===true) ? nhPI : 0
-				}
-			}
-			return null;
-		},
-		
-		/**
 		 * Create a sprite object using the first region found using the specified name
-		 * @name createSpriteFromName
-		 * @memberOf me.TextureAtlas
-		 * @function
-		 * @param {String} name name of the sprite
+		 * @param {String} name of the sprite
 		 * @return {me.SpriteObject}
 		 * @example
 		 * // create a new texture atlas object under the `game` namespace
@@ -154,14 +108,12 @@
 		 * this.anchorPoint.set(0.5, 1.0);
 		 */
 		createSpriteFromName : function(name) {
-			var region = this.getRegion(name);
-			if (region) {
+			var tex = this.atlas[name];
+			if (tex) {
 				// instantiate a new sprite object
-				var sprite = new me.SpriteObject(0,0, this.getTexture(), region.width, region.height);
+				var sprite = new me.SpriteObject(0,0, this.texture, tex.frame.width, tex.frame.height);
 				// set the sprite offset within the texture
-				sprite.offset.setV(region.offset);
-				// set angle if defined
-				sprite._sourceAngle = region.angle;
+				sprite.offset.setV(tex.frame.pos);
 				
 				/* -> when using anchor positioning, this is not required
 				   -> and makes final position wrong...
@@ -170,19 +122,22 @@
 					sprite.pos.add(tex.source.pos);
 				}
 				*/
+				
+				// check if we need rotation
+				if (tex.rotated===true) {
+					sprite._sourceAngle = nhPI;
+					// >> sprite pos not correct when rotated ? <<
+				}
 				// return our object
 				return sprite;
 			}
 			// throw an error
-			throw "melonjs: TextureAtlas - region for " + name + " not found";
+			throw "melonjs: TextureAtlas - region not found";
 		},
 		
 		/**
 		 * Create an animation object using the first region found using all specified names
-		 * @name createAnimationFromName
-		 * @memberOf me.TextureAtlas
-		 * @function
-		 * @param {String[]} names list of names for each sprite
+		 * @param {String[]} names names of the sprite
 		 * @return {me.AnimationSheet}
 		 * @example
 		 * // create a new texture atlas object under the `game` namespace
@@ -197,32 +152,38 @@
 		 *   "walk0001.png", "walk0002.png", "walk0003.png",
 		 *   "walk0004.png", "walk0005.png", "walk0006.png",
 		 *   "walk0007.png", "walk0008.png", "walk0009.png",
-		 *   "walk0010.png", "walk0011.png"
+		 *	 "walk0010.png", "walk0011.png"
 		 * ]);
 		 *
 		 * // define an additional basic walking animatin
-		 * this.renderable.addAnimation ("simple_walk", [0,2,1]);
-		 * // you can also use frame name to define your animation
-		 * this.renderable.addAnimation ("speed_walk", ["walk0007.png", "walk0008.png", "walk0009.png", "walk0010.png"]);
-		 * // set the default animation
-		 * this.renderable.setCurrentAnimation("simple_walk");
+		 * this.renderable.addAnimation ("walk",  [0,2,1]);
+		 * // set as current animation
+		 * this.renderable.setCurrentAnimation("walk");
 		 * // set the renderable position to bottom center
 		 * this.anchorPoint.set(0.5, 1.0);		 
 		 */
 		createAnimationFromName : function(names) {
-			var tpAtlas = [], indices = {};
+			var tpAtlas = [], count = 0;
 			// iterate through the given names 
 			// and create a "normalized" atlas
 			for (var i = 0; i < names.length;++i) {
-				tpAtlas[i] = this.getRegion(names[i]);
-				indices[names[i]] = i;
-				if (tpAtlas[i] == null) {
+				var tex = this.atlas[names[i]];
+				if (tex) {
+					tpAtlas[count++] = {
+						pos: tex.source.pos.clone(), // unused for now
+						offset: tex.frame.pos.clone(),
+						width: tex.frame.width,
+						height: tex.frame.height,
+						angle : (tex.rotated===true) ? nhPI : 0
+					};
+				} else {
 					// throw an error
 					throw "melonjs: TextureAtlas - region for " + names[i] + " not found";
 				}
 			}
+			
 			// instantiate a new animation sheet object
-			return new me.AnimationSheet(0,0, this.texture, 0, 0, 0, 0, tpAtlas, indices);
+			return new me.AnimationSheet(0,0, this.texture, 0, 0, 0, 0, tpAtlas);
 		}
 	});
 

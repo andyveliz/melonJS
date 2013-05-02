@@ -12,9 +12,9 @@
 	
 	/**
 	 * an Orthogonal Map Renderder
-	 * Tiled QT 0.7.x format
+	 * Tile QT 0.7.x format
 	 * @memberOf me
-	 * @ignore
+	 * @private
 	 * @constructor
 	 */
 	me.TMXOrthogonalRenderer = Object.extend({
@@ -28,7 +28,7 @@
 		
 		/** 
 		 * return true if the renderer can render the specified layer
-		 * @ignore
+		 * @private
 		 */
 		canRender : function(layer) {
 			return ((layer.orientation === 'orthogonal') &&
@@ -40,7 +40,7 @@
 		
 		/**
 		 * return the tile position corresponding to the specified pixel
-		 * @ignore
+		 * @private
 		 */
 		pixelToTileCoords : function(x, y) {
 			return new me.Vector2d(x / this.tilewidth,
@@ -49,7 +49,7 @@
 		
 		/**
 		 * return the pixel position corresponding of the specified tile
-		 * @ignore
+		 * @private
 		 */
 		tileToPixelCoords : function(x, y) {
 			return new me.Vector2d(x * this.tilewidth,
@@ -59,20 +59,16 @@
 		/**
 		 * fix the position of Objects to match
 		 * the way Tiled places them
-		 * @ignore
+		 * @private
 		 */
-		adjustPosition: function(obj) {
-			// only adjust position if obj.gid is defined
-			if (typeof(obj.gid) === 'number') {
-				 // Tiled objects origin point is "bottom-left" in Tiled, 
-				 // "top-left" in melonJS)
+		adjustPosition: function(obj){
+			if(typeof(obj.gid) != "undefined")
 				obj.y -= obj.height;
-			}
 		},
 		
 		/**
 		 * draw the tile map
-		 * @ignore
+		 * @private
 		 */
 		drawTile : function(context, x, y, tmxTile, tileset) {
 			// draw the tile
@@ -84,7 +80,7 @@
 		
 		/**
 		 * draw the tile map
-		 * @ignore
+		 * @private
 		 */
 		drawTileLayer : function(context, layer, viewport, rect) {
 			// get top-left and bottom-right tile position
@@ -120,9 +116,9 @@
 	
 	/**
 	 * an Isometric Map Renderder
-	 * Tiled QT 0.7.x format
+	 * Tile QT 0.7.x format
 	 * @memberOf me
-	 * @ignore
+	 * @private
 	 * @constructor
 	 */
 	me.TMXIsometricRenderer = Object.extend({
@@ -140,7 +136,7 @@
 		
 		/** 
 		 * return true if the renderer can render the specified layer
-		 * @ignore
+		 * @private
 		 */
 		canRender : function(layer) {
 			return ((layer.orientation === 'isometric') &&
@@ -152,7 +148,7 @@
 		
 		/**
 		 * return the tile position corresponding to the specified pixel
-		 * @ignore
+		 * @private
 		 */
 		pixelToTileCoords : function(x, y) {
 			x -=  this.originX;
@@ -165,7 +161,7 @@
 		
 		/**
 		 * return the pixel position corresponding of the specified tile
-		 * @ignore
+		 * @private
 		 */
 		tileToPixelCoords : function(x, y) {
 			return new me.Vector2d((x - y) * this.hTilewidth + this.originX,
@@ -175,7 +171,7 @@
 		/**
 		 * fix the position of Objects to match
 		 * the way Tiled places them
-		 * @ignore
+		 * @private
 		 */
 		adjustPosition: function(obj){
 			var tilex = obj.x/this.hTilewidth;
@@ -192,7 +188,7 @@
 		
 		/**
 		 * draw the tile map
-		 * @ignore
+		 * @private
 		 */
 		drawTile : function(context, x, y, tmxTile, tileset) {
 			// draw the tile
@@ -204,7 +200,7 @@
 		
 		/**
 		 * draw the tile map
-		 * @ignore
+		 * @private
 		 */
 		drawTileLayer : function(context, layer, viewport, rect) {
 		

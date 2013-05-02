@@ -22,7 +22,7 @@
 	 * @constructor
 	 * @param {int} x x position (relative to the HUD position)
 	 * @param {int} y y position (relative to the HUD position)
-	 * @param {int} [val=0] default value
+	 * @param {int} [val="0"] default value
 	 * @example
 	 * // create a "score object" that will use a Bitmap font
 	 * // to display the score value
@@ -51,7 +51,6 @@
 	me.HUD_Item = Object.extend(
 	/** @scope me.HUD_Item.prototype */
 	{
-		/** @ignore */
 		init : function(x, y, val) {
 			/**
 			 * position of the item
@@ -80,10 +79,6 @@
 
 		/**
 		 * reset the item to the default value
-		 * @name reset
-		 * @memberOf me.HUD_Item
-		 * @public
-		 * @function
 		 */
 		reset : function() {
 			this.set(this.defaultvalue);
@@ -91,10 +86,6 @@
 		
 		/**
 		 * set the item value to the specified one
-		 * @name set
-		 * @memberOf me.HUD_Item
-		 * @public
-		 * @function
 		 */
 		set : function(value) {
 			this.value = value;
@@ -104,10 +95,6 @@
 
 		/**
 		 * update the item value
-		 * @name update
-		 * @memberOf me.HUD_Item
-		 * @public
-		 * @function
 		 * @param {int} value add the specified value
 		 */
 		update : function(value) {
@@ -116,13 +103,10 @@
 
 		/**
 		 * draw the HUD item
-		 * @name draw
-		 * @memberOf me.HUD_Item
-		 * @function
 		 * @protected
 		 * @param {Context2D} context 2D context
-		 * @param {Number} x
-		 * @param {Number} y
+		 * @param {x} x
+		 * @param {y} y
 		 */
 		draw : function(context, x, y) {
 			;// to be extended
@@ -133,12 +117,10 @@
 	/**
 	 * HUD Object<br>
 	 * There is no constructor function for me.HUD_Object<br>
-	 * Object instance is accessible through {@link me.game.HUD} if previously initialized using me.game.addHUD(...);
+	 * Object instance is accessible through me.game.HUD if previously initialized using me.game.addHUD(...);
 	 * @class
 	 * @extends Object
 	 * @memberOf me
-	 * @protected
-	 * @see me.game.addHUD
 	 * @example
 	 * // create a "score object" that will use a Bitmap font
 	 * // to display the score value
@@ -170,7 +152,8 @@
 	/** @scope me.HUD_Object.prototype */
 	{	
 		/**
-		 * @ignore
+		 * @Constructor
+		 * @private
 		 */
 		init : function(x, y, w, h, bg) {
 			// call the parent constructor
@@ -297,7 +280,7 @@
 		
 		/**
 		 * return true if the HUD has been updated
-		 * @ignore
+		 * @private
 		 */
 		update : function() {
 			return this.HUD_invalidated;
@@ -324,7 +307,7 @@
 
 		/**
 		 * reset all items to default value
-		 * @ignore
+		 * @private
 		 */
 		resetAll : function() {
 			for ( var i = this.objCount, obj; i--, obj = this.HUDobj[i];) {
@@ -335,7 +318,7 @@
 
 		/**
 		 * draw the HUD
-		 * @ignore
+		 * @private
 		 */
 		draw : function(context) {
 			if (this.HUD_invalidated) {

@@ -12,8 +12,8 @@
 	 * @class
 	 * @memberOf me
 	 * @constructor
-	 * @param {String}  name    layer name
-	 * @param {String}  color   a CSS color value
+	 * @param {name}    name    layer name
+	 * @param {String}  color   in hexadecimal "#RRGGBB" format
 	 * @param {int}     z       z position
 	 */
 	 me.ColorLayer = me.Renderable.extend({
@@ -33,7 +33,7 @@
 
 		/**
 		 * reset function
-		 * @ignore
+		 * @private
 		 * @function
 		 */
 		reset : function() {
@@ -42,9 +42,6 @@
 
 		/**
 		 * get the layer alpha channel value<br>
-		 * @name getOpacity
-		 * @memberOf me.ColorLayer
-		 * @function
 		 * @return current opacity value between 0 and 1
 		 */
 		getOpacity : function() {
@@ -53,9 +50,6 @@
 
 		/**
 		 * set the layer alpha channel value<br>
-		 * @name setOpacity
-		 * @memberOf me.ColorLayer
-		 * @function
 		 * @param {alpha} alpha opacity value between 0 and 1
 		 */
 		setOpacity : function(alpha) {
@@ -66,7 +60,7 @@
 
 		/**
 		 * update function
-		 * @ignore
+		 * @private
 		 * @function
 		 */
 		update : function() {
@@ -75,7 +69,7 @@
 
 		/**
 		 * draw the color layer
-		 * @ignore
+		 * @private
 		 */
 		draw : function(context, rect) {
 			// set layer opacity
@@ -99,7 +93,7 @@
 	 * @class
 	 * @memberOf me
 	 * @constructor
-	 * @param {String} name        layer name
+	 * @param {name}   name        layer name
 	 * @param {int}    width       layer width in pixels 
 	 * @param {int}    height      layer height in pixels
 	 * @param {String} image       image name (as defined in the asset list)
@@ -134,7 +128,7 @@
 	 
 		/**
 		 * constructor
-		 * @ignore
+		 * @private
 		 * @function
 		 */
 		init: function(name, width, height, imagesrc, z, ratio) {
@@ -214,7 +208,7 @@
 		
 		/**
 		 * reset function
-		 * @ignore
+		 * @private
 		 * @function
 		 */
 		reset : function() {
@@ -226,9 +220,6 @@
 
 		/**
 		 * get the layer alpha channel value<br>
-		 * @name getOpacity
-		 * @memberOf me.ImageLayer
-		 * @function
 		 * @return current opacity value between 0 and 1
 		 */
 		getOpacity : function() {
@@ -237,9 +228,6 @@
 
 		/**
 		 * set the layer alpha channel value<br>
-		 * @name setOpacity
-		 * @memberOf me.ImageLayer
-		 * @function
 		 * @param {alpha} alpha opacity value between 0 and 1
 		 */
 		setOpacity : function(alpha) {
@@ -250,7 +238,7 @@
 		
 		/**
 		 * update function
-		 * @ignore
+		 * @private
 		 * @function
 		 */
 		update : function() {
@@ -278,7 +266,7 @@
 
 		/**
 		 * draw the image layer
-		 * @ignore
+		 * @private
 		 */
 		draw : function(context, rect) {
 			// save current context state
@@ -354,7 +342,7 @@
 	/**
 	 * a generic collision tile based layer object
 	 * @memberOf me
-	 * @ignore
+	 * @private
 	 * @constructor
 	 */
 	me.CollisionTiledLayer = me.Renderable.extend({
@@ -368,7 +356,7 @@
 	
 		/**
 		 * reset function
-		 * @ignore
+		 * @private
 		 * @function
 		 */
 		reset : function() {
@@ -377,7 +365,7 @@
 
 		/**
 		 * only test for the world limit
-		 * @ignore
+		 * @private
 		 **/
 
 		checkCollision : function(obj, pv) {
@@ -409,22 +397,17 @@
 
 	/**
 	 * a TMX Tile Layer Object
-	 * Tiled QT 0.7.x format
+	 * Tile QT 0.7.x format
 	 * @class
 	 * @memberOf me
 	 * @constructor
-	 * @param {Number} tilewidth width of each tile in pixels
-	 * @param {Number} tileheight height of each tile in pixels
-	 * @param {String} orientation "isometric" or "orthogonal"
-	 * @param {me.TMXTilesetGroup} tilesets tileset as defined in Tiled
-	 * @param {Number} zOrder layer z-order
 	 */
 	me.TMXLayer = me.Renderable.extend({
 		
 		// the layer data array
 		layerData : null,
 		
-		/** @ignore */
+		// constructor
 		init: function(tilewidth, tileheight, orientation, tilesets, zOrder) {
 
 			// tile width & height
@@ -451,7 +434,6 @@
 			this.parent(new me.Vector2d(0, 0), 0, 0);
 		},
 		
-		/** @ignore */
 		initFromXML: function(layer) {
 			
 			// additional TMX flags
@@ -494,7 +476,6 @@
 
 		},
 		
-		/** @ignore */
 		initFromJSON: function(layer) {
 			// additional TMX flags
 			this.name = layer[me.TMX_TAG_NAME];
@@ -538,7 +519,7 @@
 		
 		/**
 		 * reset function
-		 * @ignore
+		 * @private
 		 * @function
 		 */
 		reset : function() {
@@ -557,7 +538,7 @@
 		
 		/**
 		 * set the layer renderer
-		 * @ignore
+		 * @private
 		 */
 		setRenderer : function(renderer) {
 			this.renderer = renderer;
@@ -565,7 +546,7 @@
 		
 		/**
 		 * Create all required arrays
-		 * @ignore
+		 * @private
 		 */
 		initArray : function(w, h) {
 			// initialize the array
@@ -582,8 +563,7 @@
 
 		/**
 		 * Return the TileId of the Tile at the specified position
-		 * @name getTileId
-		 * @memberOf me.TMXLayer
+		 * @name me.TMXLayer#getTileId
 		 * @public
 		 * @function
 		 * @param {Integer} x x coordinate in pixel 
@@ -597,8 +577,7 @@
 		
 		/**
 		 * Return the Tile object at the specified position
-		 * @name getTile
-		 * @memberOf me.TMXLayer
+		 * @name me.TMXLayer#getTile
 		 * @public
 		 * @function
 		 * @param {Integer} x x coordinate in pixel 
@@ -611,8 +590,7 @@
 
 		/**
 		 * Create a new Tile at the specified position
-		 * @name setTile
-		 * @memberOf me.TMXLayer
+		 * @name me.TMXLayer#setTile
 		 * @public
 		 * @function
 		 * @param {Integer} x x coordinate in tile 
@@ -625,8 +603,7 @@
 		
 		/**
 		 * clear the tile at the specified position
-		 * @name clearTile
-		 * @memberOf me.TMXLayer
+		 * @name me.TMXLayer#clearTile
 		 * @public
 		 * @function
 		 * @param {Integer} x x position 
@@ -643,11 +620,8 @@
 		
 		/**
 		 * get the layer alpha channel value
-		 * @name getOpacity
-		 * @memberOf me.TMXLayer
-		 * @public
-		 * @function
-		 * @return {Number} current opacity value between 0 and 1
+		 * @name me.TMXLayer#getOpacity
+		 * @return current opacity value between 0 and 1
 		 */
 		getOpacity : function() {
 			return this.opacity;
@@ -655,11 +629,8 @@
 
 		/**
 		 * set the layer alpha channel value
-		 * @name setOpacity
-		 * @memberOf me.TMXLayer
-		 * @public
-		 * @function
-		 * @param {Number} alpha opacity value between 0 and 1
+		 * @name me.TMXLayer#setOpacity
+		 * @param {alpha} alpha opacity value between 0 and 1
 		 */
 		setOpacity : function(alpha) {
 			if (typeof(alpha) === "number") {
@@ -676,7 +647,7 @@
 		 * obj - obj
 		 * pv   - projection vector
 		 * res : result collision object
-		 * @ignore
+		 * @private
 		 */
 		checkCollision : function(obj, pv) {
 
@@ -730,7 +701,7 @@
 		
 		/**
 		 * a dummy update function
-		 * @ignore
+		 * @private
 		 */
 		update : function() {
 			return false;
@@ -738,7 +709,7 @@
 		
 		/**
 		 * draw a tileset layer
-		 * @ignore
+		 * @private
 		 */
 		draw : function(context, rect) {
 			

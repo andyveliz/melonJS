@@ -10,7 +10,7 @@
 	/**
 	 * a default loading screen
 	 * @memberOf me
-	 * @ignore
+	 * @private
 	 * @constructor
 	 */
 	me.DefaultLoadingScreen = me.ScreenObject.extend({
@@ -115,8 +115,9 @@
 	/**
 	 * a small class to manage loading of stuff and manage resources
 	 * There is no constructor function for me.input.
-	 * @namespace me.loader
+	 * @final
 	 * @memberOf me
+	 * @constructor Should not be called by the user.
 	 */
 
 	me.loader = (function() {
@@ -138,7 +139,7 @@
 
 		/**
 		 * check the loading status
-		 * @ignore
+		 * @private
 		 */
 		function checkLoadStatus() {
 			if (loadCount == resourceCount) {
@@ -168,7 +169,7 @@
 		 * 				  {name: 'image2', src: 'images/image2.png'},
 		 *				  {name: 'image3', src: 'images/image3.png'},
 		 *				  {name: 'image4', src: 'images/image4.png'}]);
-		 * @ignore
+		 * @private
 		 */
 		
 		function preloadImage(img, onload, onerror) {
@@ -181,7 +182,7 @@
 
 		/**
 		 * preload TMX files
-		 * @ignore
+		 * @private
 		 */
 		function preloadTMX(tmxData, onload, onerror) {
 			var xmlhttp = new XMLHttpRequest();
@@ -197,12 +198,7 @@
 			}
 			
 			xmlhttp.open("GET", tmxData.src + me.nocache, true);
-
-			// add the tmx to the levelDirector
-			if (tmxData.type === "tmx") {
-				me.levelDirector.addTMXLevel(tmxData.name);
-			}
-
+						
 			// set the callbacks
 			xmlhttp.ontimeout = onerror;
 			xmlhttp.onreadystatechange = function() {
@@ -244,6 +240,10 @@
 							format : format
 						};
 						
+						// add the tmx to the levelDirector
+						if (tmxData.type === "tmx") {
+							me.levelDirector.addTMXLevel(tmxData.name);
+						}
 						// fire the callback
 						onload();
 					} else {
@@ -258,7 +258,7 @@
 		
 		/**
 		 * preload TMX files
-		 * @ignore
+		 * @private
 		 */
 		function preloadJSON(data, onload, onerror) {
 			var xmlhttp = new XMLHttpRequest();
@@ -291,7 +291,7 @@
 			
 		/**
 		 * preload Binary files
-		 * @ignore
+		 * @private
 		 */
 		function preloadBinary(data, onload, onerror) {
 			var httpReq = new XMLHttpRequest();
@@ -327,9 +327,8 @@
 		/**
 		 * onload callback
 		 * @public
-		 * @callback
-		 * @name onload
-		 * @memberOf me.loader
+		 * @type Function
+		 * @name me.loader#onload
 		 * @example
 		 *
 		 * // set a callback when everything is loaded
@@ -342,9 +341,8 @@
 		 * each time a resource is loaded, the loader will fire the specified function,
 		 * giving the actual progress [0 ... 1], as argument.
 		 * @public
-		 * @callback
-		 * @name onProgress
-		 * @memberOf me.loader
+		 * @type Function
+		 * @name me.loader#onProgress
 		 * @example
 		 *
 		 * // set a callback for progress notification
@@ -354,7 +352,7 @@
 
 		/**
 		 *	just increment the number of already loaded resources
-		 * @ignore
+		 * @private
 		 */
 
 		obj.onResourceLoaded = function(e) {
@@ -373,7 +371,7 @@
 		
 		/**
 		 * on error callback for image loading 	
-		 * @ignore
+		 * @private
 		 */
 		obj.onLoadingError = function(res) {
 			throw "melonJS: Failed loading resource " + res.src;
@@ -391,8 +389,7 @@
 		 * - channel : optional number of channels to be created<br>
 		 * - stream  : optional boolean to enable audio streaming<br>
 		 * <br>
-		 * @name preload
-		 * @memberOf me.loader
+		 * @name me.loader#preload
 		 * @public
 		 * @function
 		 * @param {Array.<string>} resources
@@ -439,8 +436,7 @@
 		 * - src     : path (only) where resources are located<br>
 		 * - channel : optional number of channels to be created<br>
 		 * - stream  : optional boolean to enable audio streaming<br>
-		 * @name load
-		 * @memberOf me.loader
+		 * @name me.loader#load
 		 * @public
 		 * @function
 		 * @param {Object} resource
@@ -502,8 +498,7 @@
 
 		/**
 		 * unload specified resource to free memory
-		 * @name unload
-		 * @memberOf me.loader
+		 * @name me.loader#unload
 		 * @public
 		 * @function
 		 * @param {Object} resource
@@ -552,8 +547,7 @@
 
 		/**
 		 * unload all resources to free memory
-		 * @name unloadAll
-		 * @memberOf me.loader
+		 * @name me.loader#unloadAll
 		 * @public
 		 * @function
 		 * @example me.loader.unloadAll();
@@ -583,8 +577,7 @@
 
 		/**
 		 * return the specified TMX object storing type
-		 * @name getTMXFormat
-		 * @memberOf me.loader
+		 * @name me.loader#getTMXFormat
 		 * @public
 		 * @function
 		 * @param {String} tmx name of the tmx/tsx element ("map1");
@@ -604,8 +597,7 @@
 
 		/**
 		 * return the specified TMX/TSX object
-		 * @name getTMX
-		 * @memberOf me.loader
+		 * @name me.loader#getTMX
 		 * @public
 		 * @function
 		 * @param {String} tmx name of the tmx/tsx element ("map1");
@@ -624,8 +616,7 @@
 		
 		/**
 		 * return the specified Binary object
-		 * @name getBinary
-		 * @memberOf me.loader
+		 * @name me.loader#getBinary
 		 * @public
 		 * @function
 		 * @param {String} name of the binary object ("ymTrack");
@@ -645,8 +636,7 @@
 		
 		/**
 		 * return the specified Atlas object
-		 * @name getAtlas
-		 * @memberOf me.loader
+		 * @name me.loader#getAtlas
 		 * @public
 		 * @function
 		 * @param {String} name of the atlas object;
@@ -666,8 +656,7 @@
 
 		/**
 		 * return the specified Image Object
-		 * @name getImage
-		 * @memberOf me.loader
+		 * @name me.loader#getImage
 		 * @public
 		 * @function
 		 * @param {String} Image name of the Image element ("tileset-platformer");
@@ -699,8 +688,7 @@
 
 		/**
 		 * Return the loading progress in percent
-		 * @name getLoadProgress
-		 * @memberOf me.loader
+		 * @name me.loader#getLoadProgress
 		 * @public
 		 * @function
 		 * @deprecated use callback instead

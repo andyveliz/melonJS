@@ -10,11 +10,11 @@
 	/**
 	 * me.ObjectSettings contains the object attributes defined in Tiled<br>
 	 * and is created by the engine and passed as parameter to the corresponding object when loading a level<br>
-	 * the field marked Mandatory are to be defined either in Tiled, or in the before calling the parent constructor<br>
-	 * <img src="images/object_properties.png"/><br>
-	 * @class
-	 * @protected
+	 * the field marked Mandatory are to be defined either in Tiled, or in the before calling the parent constructor
+	 * <img src="object_properties.png"/><br>
+	 * @final
 	 * @memberOf me
+	 * @constructor Should not be called by the user.
 	 */
 	me.ObjectSettings = {
 		/**
@@ -22,8 +22,7 @@
 		 * as defined in the Tiled Object Properties
 		 * @public
 		 * @type String
-		 * @name name
-		 * @memberOf me.ObjectSettings
+		 * @name me.ObjectSettings#name
 		 */
 		name : null,
 
@@ -33,8 +32,7 @@
 		 * (in case of TiledObject, this field is automatically set)
 		 * @public
 		 * @type String
-		 * @name image
-		 * @memberOf me.ObjectSettings
+		 * @name me.ObjectSettings#image
 		 */
 		image : null,
 
@@ -43,10 +41,8 @@
 		 * OPTIONAL<br>
 		 * (using this option will imply processing time on the image)
 		 * @public
-		 * @deprecated Use PNG or GIF with transparency instead
 		 * @type String
-		 * @name transparent_color
-		 * @memberOf me.ObjectSettings
+		 * @name me.ObjectSettings#transparent_color
 		 */
 		transparent_color : null,
 
@@ -56,8 +52,7 @@
 		 * (in case of TiledObject, this field is automatically set)
 		 * @public
 		 * @type Int
-		 * @name spritewidth
-		 * @memberOf me.ObjectSettings
+		 * @name me.ObjectSettings#spritewidth
 		 */
 		spritewidth : null,
 
@@ -68,8 +63,7 @@
 		 * (in case of TiledObject, this field is automatically set)
 		 * @public
 		 * @type Int
-		 * @name spriteheight
-		 * @memberOf me.ObjectSettings
+		 * @name me.ObjectSettings#spriteheight
 		 */
 		spriteheight : null,
 
@@ -79,8 +73,7 @@
 		 * OPTIONAL
 		 * @public
 		 * @type String
-		 * @name type
-		 * @memberOf me.ObjectSettings
+		 * @name me.ObjectSettings#type
 		 */
 		type : 0,
 
@@ -89,8 +82,7 @@
 		 * OPTIONAL
 		 * @public
 		 * @type Boolean
-		 * @name collidable
-		 * @memberOf me.ObjectSettings
+		 * @name me.ObjectSettings#collidable
 		 */
 		collidable : true
 	};
@@ -108,10 +100,11 @@
 	 * This object is also used by the engine to instanciate objects defined in the map, 
 	 * which means, that on level loading the engine will try to instanciate every object 
 	 * found in the map, based on the user defined name in each Object Properties<br>
-	 * <img src="images/object_properties.png"/><br>
+	 * <img src="object_properties.png"/><br>
 	 * There is no constructor function for me.entityPool, this is a static object
-	 * @namespace me.entityPool
+	 * @final
 	 * @memberOf me
+	 * @constructor Should not be called by the user.
 	 */
 	me.entityPool = (function() {
 		// hold public stuff in our singletong
@@ -148,8 +141,7 @@
 		 * Pooling must be set to true if more than one such objects will be created. <br>
 		 * (note) If pooling is enabled, you shouldn't instanciate objects with `new`.
 		 * See examples in {@link me.entityPool#newInstanceOf}
-		 * @name add
-		 * @memberOf me.entityPool
+		 * @name me.entityPool#add
 		 * @public
 		 * @function
 		 * @param {String} className as defined in the Name fied of the Object Properties (in Tiled)
@@ -177,13 +169,12 @@
 		};
 
 		/**
-		 * Return a new instance of the requested object (if added into the object pool)
-		 * @name newInstanceOf
-		 * @memberOf me.entityPool
+		 *	Return a new instance of the requested object (if added into the object pool)
+		 * @name me.entityPool#newInstanceOf
 		 * @public
 		 * @function
-		 * @param {String} className as used in {@link me.entityPool#add}
-		 * @param {} [arguments...] arguments to be passed when instanciating/reinitializing the object
+		 * @param {String} className as used in me.entityPool#add
+		 * @params {arguments} [arguments] to be passed when instanciating/reinitializing the object
 		 * @example
 		 * me.entityPool.add("player", PlayerEntity);
 		 * var player = me.entityPool.newInstanceOf("player");
@@ -244,8 +235,7 @@
 		 * purge the entity pool from any unactive object <br>
 		 * Object pooling must be enabled for this function to work<br>
 		 * note: this will trigger the garbage collector
-		 * @name purge
-		 * @memberOf me.entityPool
+		 * @name me.entityPool#purge
 		 * @public
 		 * @function
 		 */
@@ -260,8 +250,7 @@
 		 * Object pooling for the object class must be enabled,
 		 * and object must have been instanciated using {@link me.entityPool#newInstanceOf},
 		 * otherwise this function won't work
-		 * @name freeInstance
-		 * @memberOf me.entityPool
+		 * @name me.entityPool#freeInstance
 		 * @public
 		 * @function
 		 * @param {Object} instance to be removed 
@@ -313,7 +302,7 @@
 	 * @constructor
 	 * @param {int} x the x coordinates of the sprite object
 	 * @param {int} y the y coordinates of the sprite object
-	 * @param {me.ObjectSettings} settings Object Properties as defined in Tiled <br> <img src="images/object_properties.png"/>
+	 * @param {me.ObjectSettings} settings Object Properties as defined in Tiled <br> <img src="object_properties.png"/>
 	 */
 	me.ObjectEntity = me.Renderable.extend(
 	/** @scope me.ObjectEntity.prototype */ {
@@ -322,8 +311,7 @@
 		* Entity "Game Unique Identifier"<br>
 		* @public
 		* @type String
-		* @name GUID
-		* @memberOf me.ObjectEntity
+		* @name me.ObjectEntity#GUID
 		*/
 		GUID : null,
 
@@ -332,8 +320,7 @@
 		 * default value : none<br>
 		 * @public
 		 * @type String
-		 * @name type
-		 * @memberOf me.ObjectEntity
+		 * @name me.ObjectEntity#type
 		 */
 		type : 0,
 
@@ -342,8 +329,7 @@
 		 * default value : true<br>
 		 * @public
 		 * @type Boolean
-		 * @name collidable
-		 * @memberOf me.ObjectEntity
+		 * @name me.ObjectEntity#collidable
 		 */
 		collidable : true,
 		
@@ -352,8 +338,7 @@
 		 * Entity collision Box<br>
 		 * @public
 		 * @type me.Rect
-		 * @name collisionBox
-		 * @memberOf me.ObjectEntity
+		 * @name me.ObjectEntity#collisionBox
 		 */
 		collisionBox : null,
 
@@ -361,8 +346,7 @@
 		 * The entity renderable object (if defined)
 		 * @public
 		 * @type me.Renderable
-		 * @name renderable
-		 * @memberOf me.ObjectEntity
+		 * @name me.ObjectEntity#renderable
 		 */
 		renderable : null,
 		
@@ -370,7 +354,7 @@
 		z : 0,
 		
 		
-		/** @ignore */
+		/** @private */
 		init : function(x, y, settings) {
 			
 			// call the parent constructor
@@ -402,8 +386,7 @@
 			 * entity current velocity<br>
 			 * @public
 			 * @type me.Vector2d
-			 * @name vel
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#vel
 			 */
 			this.vel = new me.Vector2d();
 
@@ -411,16 +394,15 @@
 			 * entity current acceleration<br>
 			 * @public
 			 * @type me.Vector2d
-			 * @name accel
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#accel
 			 */
 			this.accel = new me.Vector2d();
 
 			/**
 			 * entity current friction<br>
 			 * @public
-			 * @name friction
-			 * @memberOf me.ObjectEntity
+			 * @type me.Vector2d
+			 * @name me.ObjectEntity#friction
 			 */
 			this.friction = new me.Vector2d();
 
@@ -428,8 +410,7 @@
 			 * max velocity (to limit entity velocity)<br>
 			 * @public
 			 * @type me.Vector2d
-			 * @name maxVel
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#maxVel
 			 */
 			this.maxVel = new me.Vector2d(1000,1000);
 
@@ -442,8 +423,7 @@
 			 * @public
 			 * @see me.sys.gravity
 			 * @type Number
-			 * @name gravity
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#gravity
 			 */
 			this.gravity = (me.sys.gravity!=undefined)?me.sys.gravity:0.98;
 
@@ -456,8 +436,7 @@
 			 * default value : true
 			 * @public
 			 * @type Boolean
-			 * @name alive
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#alive
 			 */
 			this.alive = true;
 			
@@ -477,8 +456,7 @@
 			 * @readonly
 			 * @public
 			 * @type Boolean
-			 * @name falling
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#falling
 			 */
 			this.falling = false;
 			/**
@@ -487,8 +465,7 @@
 			 * @readonly
 			 * @public
 			 * @type Boolean
-			 * @name jumping
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#jumping
 			 */
 			this.jumping = true;
 
@@ -499,8 +476,7 @@
 			 * @readonly
 			 * @public
 			 * @type Boolean
-			 * @name onslope
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#onslope
 			 */
 			this.onslope = false;
 			/**
@@ -508,8 +484,7 @@
 			 * @readonly
 			 * @public
 			 * @type Boolean
-			 * @name onladder
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#onladder
 			 */
 			this.onladder = false;
 			/**
@@ -517,8 +492,7 @@
 			 * @readonly
 			 * @public
 			 * @type Boolean
-			 * @name disableTopLadderCollision
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#disableTopLadderCollision
 			 */
 			this.disableTopLadderCollision = false;
 
@@ -542,17 +516,15 @@
 			 * default value : false<br>
 			 * @public
 			 * @type Boolean
-			 * @name canBreakTile
-			 * @memberOf me.ObjectEntity
+			 * @name me.ObjectEntity#canBreakTile
 			 */
 			this.canBreakTile = false;
 
 			/**
 			 * a callback when an entity break a tile<br>
 			 * @public
-			 * @callback
-			 * @name onTileBreak
-			 * @memberOf me.ObjectEntity
+			 * @type Function
+			 * @name me.ObjectEntity#onTileBreak
 			 */
 			this.onTileBreak = null;
 		},
@@ -561,10 +533,7 @@
 		 * specify the size of the hit box for collision detection<br>
 		 * (allow to have a specific size for each object)<br>
 		 * e.g. : object with resized collision box :<br>
-		 * <img src="images/me.Rect.colpos.png"/>
-		 * @name updateColRect
-		 * @memberOf me.ObjectEntity
-		 * @function
+		 * <img src="me.Rect.colpos.png"/>
 		 * @param {int} x x offset (specify -1 to not change the width)
 		 * @param {int} w width of the hit box
 		 * @param {int} y y offset (specify -1 to not change the height)
@@ -578,9 +547,6 @@
 		 * onCollision Event function<br>
 		 * called by the game manager when the object collide with shtg<br>
 		 * by default, if the object type is Collectable, the destroy function is called
-		 * @name onCollision
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @param {me.Vector2d} res collision vector
 		 * @param {me.ObjectEntity} obj the other object that hit this object
 		 * @protected
@@ -594,9 +560,6 @@
 		/**
 		 * set the entity default velocity<br>
 		 * note : velocity is by default limited to the same value, see setMaxVelocity if needed<br>
-		 * @name setVelocity
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @param {Int} x velocity on x axis
 		 * @param {Int} y velocity on y axis
 		 * @protected
@@ -612,9 +575,6 @@
 
 		/**
 		 * cap the entity velocity to the specified value<br>
-		 * @name setMaxVelocity
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @param {Int} x max velocity on x axis
 		 * @param {Int} y max velocity on y axis
 		 * @protected
@@ -626,9 +586,6 @@
 
 		/**
 		 * set the entity default friction<br>
-		 * @name setFriction
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @param {Int} x horizontal friction
 		 * @param {Int} y vertical friction
 		 * @protected
@@ -639,11 +596,8 @@
 		},
 		
 		/**
-		 * Flip object on horizontal axis
-		 * @name flipX
-		 * @memberOf me.ObjectEntity
-		 * @function
-		 * @param {Boolean} flip enable/disable flip
+		 *	Flip object on horizontal axis
+		 *	@param {Boolean} flip enable/disable flip
 		 */
 		flipX : function(flip) {
 			if (flip != this.lastflipX) {
@@ -658,11 +612,8 @@
 		},
 
 		/**
-		 * Flip object on vertical axis
-		 * @name flipY
-		 * @memberOf me.ObjectEntity
-		 * @function
-		 * @param {Boolean} flip enable/disable flip
+		 *	Flip object on vertical axis
+		 *	@param {Boolean} flip enable/disable flip
 		 */
 		flipY : function(flip) {
 			if (flip != this.lastflipY) {
@@ -679,12 +630,8 @@
 		/**
 		 * helper function for platform games: <br>
 		 * make the entity move left of right<br>
-		 * @name doWalk
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @param {Boolean} left will automatically flip horizontally the entity sprite
 		 * @protected
-		 * @deprecated
 		 * @example
 		 * if (me.input.isKeyPressed('left'))
 		 * {
@@ -704,12 +651,8 @@
 		 * helper function for platform games: <br>
 		 * make the entity move up and down<br>
 		 * only valid is the player is on a ladder
-		 * @name doClimb
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @param {Boolean} up will automatically flip vertically the entity sprite
 		 * @protected
-		 * @deprecated
 		 * @example
 		 * if (me.input.isKeyPressed('up'))
 		 * {
@@ -735,11 +678,7 @@
 		/**
 		 * helper function for platform games: <br>
 		 * make the entity jump<br>
-		 * @name doJump
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @protected
-		 * @deprecated
 		 */
 		doJump : function() {
 			// only jump if standing
@@ -754,11 +693,7 @@
 		/**
 		 * helper function for platform games: <br>
 		 * force to the entity to jump (for double jump)<br>
-		 * @name forceJump
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @protected
-		 * @deprecated
 		 */
 		forceJump : function() {
 			this.jumping = this.falling = false;
@@ -768,9 +703,6 @@
 
 		/**
 		 * return the distance to the specified entity
-		 * @name distanceTo
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @param {me.ObjectEntity} entity Entity
 		 * @return {float} distance
 		 */
@@ -785,9 +717,6 @@
 		
 		/**
 		 * return the distance to the specified point
-		 * @name distanceToPoint
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @param {me.Vector2d} vector vector
 		 * @return {float} distance
 		 */
@@ -802,9 +731,6 @@
 		
 		/**
 		 * return the angle to the specified entity
-		 * @name angleTo
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @param {me.ObjectEntity} entity Entity
 		 * @return {Number} angle in radians
 		 */
@@ -820,9 +746,6 @@
 		
 		/**
 		 * return the angle to the specified point
-		 * @name angleToPoint
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @param {me.Vector2d} vector vector
 		 * @return {Number} angle in radians
 		 */
@@ -839,7 +762,7 @@
 		/**
 		 * handle the player movement on a slope
 		 * and update vel value
-		 * @ignore
+		 * @private
 		 */
 		checkSlope : function(tile, left) {
 
@@ -862,7 +785,7 @@
 
 		/**
 		 * compute the new velocity value
-		 * @ignore
+		 * @private
 		 */
 		computeVelocity : function(vel) {
 
@@ -893,9 +816,6 @@
 
 		/**
 		 * handle the player movement, "trying" to update his position<br>
-		 * @name updateMovement
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @return {me.Vector2d} a collision vector
 		 * @example
 		 * // make the player move
@@ -927,7 +847,7 @@
 		 *    else
 		 *       console.log("y axis : bottom side !");
 		 *
-		 *    // display the tile type
+		 *	  // display the tile type
 		 *    console.log(res.yprop.type)
 		 * }
 		 *
@@ -1030,8 +950,6 @@
 		/**
 		 * Checks if this entity collides with others entities.
 		 * @public
-		 * @name collide
-		 * @memberOf me.ObjectEntity
 		 * @function
 		 * @param {Boolean} [multiple=false] check for multiple collision
 		 * @return {me.Vector2d} collision vector or an array of collision vector (if multiple collision){@link me.Rect#collideVsAABB}
@@ -1070,8 +988,6 @@
 		/**
 		 * Checks if the specified entity collides with others entities of the specified type.
 		 * @public
-		 * @name collideType
-		 * @memberOf me.ObjectEntity
 		 * @function
 		 * @param {String} type Entity type to be tested for collision
 		 * @param {Boolean} [multiple=false] check for multiple collision
@@ -1081,7 +997,7 @@
 			return me.game.collideType(this, type, multiple || false);
 		},
 		
-		/** @ignore */
+		/** @private */
 		update : function() {
 			if (this.renderable) {
 				return this.renderable.update();
@@ -1090,7 +1006,7 @@
 		},
 		
 		/**
-		 * @ignore	
+		 * @private	
 		 */
 		getRect : function() {
 			if (this.renderable) {
@@ -1105,9 +1021,6 @@
 		 * object draw<br>
 		 * not to be called by the end user<br>
 		 * called by the game manager on each game loop
-		 * @name draw
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 * @protected
 		 * @param {Context2d} context 2d Context on which draw our object
 		 **/
@@ -1127,27 +1040,22 @@
 			if (me.debug.renderHitBox && this.collisionBox) {
 				// draw the collisionBox
 				this.collisionBox.draw(context, "red");
-			}
-			if (me.debug.renderVelocity) {
+				
 				// draw entity current velocity
-				var x = ~~(this.pos.x + this.hWidth);
-				var y = ~~(this.pos.y + this.hHeight);
-
-				context.strokeStyle = "blue";
+				var x =  ~~(this.pos.x + this.hWidth);
+				var y =  ~~(this.pos.y + this.hHeight);
+				
 				context.lineWidth = 1;
 				context.beginPath();
-				context.moveTo(x, y);
-				context.lineTo(
-					x + ~~(this.vel.x * this.hWidth),
-					y + ~~(this.vel.y * this.hHeight)
-				);
+				context.moveTo(x , y);
+				context.lineTo(x +  ~~(this.vel.x * this.hWidth), y + ~~(this.vel.y * this.hHeight));
 				context.stroke();
 			}
 		},
 		
 		/**
 		 * Destroy function<br>
-		 * @ignore
+		 * @private
 		 */
 		destroy : function() {
 			// free some property objects
@@ -1163,9 +1071,6 @@
 		/**
 		 * OnDestroy Notification function<br>
 		 * Called by engine before deleting the object
-		 * @name onDestroyEvent
-		 * @memberOf me.ObjectEntity
-		 * @function
 		 */
 		onDestroyEvent : function() {
 			;// to be extended !
@@ -1191,7 +1096,7 @@
 	me.CollectableEntity = me.ObjectEntity.extend(
 	/** @scope me.CollectableEntity.prototype */
 	{
-		/** @ignore */
+		/** @private */
 		init : function(x, y, settings) {
 			// call the parent constructor
 			this.parent(x, y, settings);
@@ -1218,7 +1123,7 @@
 	me.LevelEntity = me.ObjectEntity.extend(
 	/** @scope me.LevelEntity.prototype */
 	{
-		/** @ignore */
+		/** @private */
 		init : function(x, y, settings) {
 			this.parent(x, y, settings);
 
@@ -1233,7 +1138,7 @@
 		},
 
 		/**
-		 * @ignore
+		 * @private
 		 */
 		onFadeComplete : function() {
 			me.levelDirector.loadLevel(this.gotolevel);
@@ -1242,10 +1147,6 @@
 
 		/**
 		 * go to the specified level
-		 * @name goTo
-		 * @memberOf me.LevelEntity
-		 * @function
-		 * @param {String} [level=this.nextlevel] name of the level to load
 		 * @protected
 		 */
 		goTo : function(level) {
@@ -1263,7 +1164,7 @@
 			}
 		},
 
-		/** @ignore */
+		/** @private */
 		onCollision : function() {
 			this.goTo();
 		}

@@ -12,8 +12,9 @@
 	 * a level manager object <br>
 	 * once ressources loaded, the level director contains all references of defined levels<br>
 	 * There is no constructor function for me.levelDirector, this is a static object
-	 * @namespace me.levelDirector
+	 * @final
 	 * @memberOf me
+	 * @constructor Should not be called by the user.
 	 */
 	me.levelDirector = (function() {
 		// hold public stuff in our singletong
@@ -39,7 +40,7 @@
   		  ---------------------------------------------*/
 		/**
 		 * reset the level director 
-		 * @ignore
+		 * @private
 		 */
 		obj.reset = function() {
 
@@ -47,7 +48,7 @@
 
 		/**
 		 * add a level  
-		 * @ignore
+		 * @private
 		 */
 		obj.addLevel = function(level) {
 			throw "melonJS: no level loader defined";
@@ -56,17 +57,17 @@
 		/**
 		 *
 		 * add a TMX level  
-		 * @ignore
+		 * @private
 		 */
 		obj.addTMXLevel = function(levelId, callback) {
 			// just load the level with the XML stuff
 			if (levels[levelId] == null) {
 				//console.log("loading "+ levelId);
-				levels[levelId] = new me.TMXTileMap(levelId);
+				levels[levelId] = new me.TMXTileMap(levelId, 0, 0);
 				// set the name of the level
 				levels[levelId].name = levelId;
 				// level index
-				levelIdx.push(levelId);
+				levelIdx[levelIdx.length] = levelId;
 			} 
 			else  {
 				//console.log("level %s already loaded", levelId);
@@ -84,8 +85,7 @@
 		/**
 		 * load a level into the game manager<br>
 		 * (will also create all level defined entities, etc..)
-		 * @name loadLevel
-		 * @memberOf me.levelDirector
+		 * @name me.levelDirector#loadLevel
 		 * @public
 		 * @function
 		 * @param {String} level level id
@@ -155,8 +155,7 @@
 
 		/**
 		 * return the current level id<br>
-		 * @name getCurrentLevelId
-		 * @memberOf me.levelDirector
+		 * @name me.levelDirector#getCurrentLevelId
 		 * @public
 		 * @function
 		 * @return {String}
@@ -167,8 +166,7 @@
 
 		/**
 		 * reload the current level<br>
-		 * @name reloadLevel
-		 * @memberOf me.levelDirector
+		 * @name me.levelDirector#reloadLevel
 		 * @public
 		 * @function
 		 */
@@ -180,8 +178,7 @@
 
 		/**
 		 * load the next level<br>
-		 * @name nextLevel
-		 * @memberOf me.levelDirector
+		 * @name me.levelDirector#nextLevel
 		 * @public
 		 * @function
 		 */
@@ -196,8 +193,7 @@
 
 		/**
 		 * load the previous level<br>
-		 * @name previousLevel
-		 * @memberOf me.levelDirector
+		 * @name me.levelDirector#previousLevel
 		 * @public
 		 * @function
 		 */
@@ -212,8 +208,7 @@
 
 		/**
 		 * return the amount of level preloaded<br>
-		 * @name levelCount
-		 * @memberOf me.levelDirector
+		 * @name me.levelDirector#levelCount
 		 * @public
 		 * @function
 		 */

@@ -59,8 +59,8 @@ module.exports = function(grunt) {
 	
 	uglify: {
 		options: {
-			report: 'min',
-			preserveComments: 'some'
+			banner: "/*! melonJS (c)2011 - 2013 Olivier Biot (http://www.melonjs.org) */\n",
+			report: 'min'
 		},
 		dist: {
 			files: {
@@ -92,12 +92,12 @@ module.exports = function(grunt) {
 	
 	clean: {
 		dist: ['build/<%= pkg.name %>-<%= pkg.version %>.js', 'build/<%= pkg.name %>-<%= pkg.version %>.min.js'],
-		jsdoc: ['./docs/**/*.*', './docs/scripts', './docs/styles', './docs/images']
+		jsdoc: ['./docs/**/*.*', './docs/scripts', './docs/styles']
     },
    
     jsdoc : {
         dist : {
-            src: ['build/<%= pkg.name %>-<%= pkg.version %>.js', 'README.md'],
+            src: ['build/<%= pkg.name %>-<%= pkg.version %>.js'], 
             options: {
 				configure: 'jsdoc_conf.json',
 				destination: 'docs',

@@ -18,14 +18,11 @@
 	 * Javascript Tweening Engine<p>
 	 * Super simple, fast and easy to use tweening engine which incorporates optimised Robert Penner's equation<p>
 	 * <a href="https://github.com/sole/Tween.js">https://github.com/sole/Tween.js</a><p>
-	 * @author {@link http://soledadpenades.com|sole}
-	 * @author {@link http://mrdoob.com|mr.doob}
-	 * @author {@link http://www.xarg.org|Robert Eisele}
-	 * @author {@link http://philippe.elsass.me|Philippe}
-	 * @author {@link http://www.robertpenner.com/easing_terms_of_use.html|Robert Penner}
-	 * @author {@link http://www.aerotwist.com/|Paul Lewis}
-	 * @author lechecacharro
-	 * @author {@link http://jocafa.com/|Josh Faul}
+	 * @author <a href="http://soledadpenades.com">sole</a>
+	 * @author <a href="http://mrdoob.com">mr.doob</a>
+	 * @author <a href="http://www.xarg.org">Robert Eisele</a>
+	 * @author <a href="http://philippe.elsass.me">Philippe</a>
+	 * @author <a href="http://www.robertpenner.com/easing_terms_of_use.html">Robert Penner</a>
 	 * @class
 	 * @memberOf me
 	 * @constructor
@@ -50,12 +47,6 @@
 			_chainedTween = null,
 			_onUpdateCallback = null,
 			_onCompleteCallback = null;
-
-		/**
-		 * Always update the tween (it's never in viewport)
-		 * @ignore
-		 */
-		this.alwaysUpdate = true;
 
 		/**
 		 * object properties to be updated and duration
@@ -132,7 +123,7 @@
 		 */
 		this.stop = function() {
 
-			me.game.remove(this, true);
+			me.game.remove(this);
 			return this;
 
 		};
@@ -142,7 +133,7 @@
 		 * @name me.Tween#delay
 		 * @public
 		 * @function
-		 * @param {int} amount delay amount expressed in milliseconds
+		 * @param {int} amount delay amount
 		 */
 		this.delay = function(amount) {
 
@@ -153,7 +144,7 @@
 
 		/**
 		 * Calculate delta to pause the tween
-		 * @ignore
+		 * @private
 		 */
 		me.event.subscribe(me.event.STATE_PAUSE, function onPause() {
 			if (_startTime) {
@@ -163,7 +154,7 @@
 
 		/**
 		 * Calculate delta to resume the tween
-		 * @ignore
+		 * @private
 		 */
 		me.event.subscribe(me.event.STATE_RESUME, function onResume() {
 			if (_startTime && _pauseTime) {
@@ -176,7 +167,7 @@
 		 * @name me.Tween#easing
 		 * @public
 		 * @function
-		 * @param {me.Tween#Easing} easing easing function
+		 * @param {Function} easing easing function
 		 */
 		this.easing = function(easing) {
 
@@ -204,7 +195,7 @@
 		 * @name me.Tween#onUpdate
 		 * @public
 		 * @function
-		 * @param {Function} onUpdateCallback callback
+		 * @param {function} onUpdateCallback callback
 		 */
 		this.onUpdate = function(onUpdateCallback) {
 
@@ -218,7 +209,7 @@
 		 * @name me.Tween#onComplete
 		 * @public
 		 * @function
-		 * @param {Function} onCompleteCallback callback
+		 * @param {function} onCompleteCallback callback
 		 */
 		this.onComplete = function(onCompleteCallback) {
 
@@ -227,7 +218,7 @@
 
 		};
 
-		/** @ignore*/
+		/** @private*/
 		this.update = function(/* time */) {
 
 			var property, elapsed, value;
@@ -263,7 +254,7 @@
 			if (elapsed === 1) {
 
 				// remove the tween from the object pool
-				me.game.remove(this, true);
+				me.game.remove(this);
 
 				if (_onCompleteCallback !== null) {
 
@@ -288,42 +279,39 @@
 	}
 
 	/**
-	 * Easing Function :<br>
-	 * <p>
-	 * Easing.Linear.EaseNone<br>
-	 * Easing.Quadratic.EaseIn<br>
-	 * Easing.Quadratic.EaseOut<br>
-	 * Easing.Quadratic.EaseInOut<br>
-	 * Easing.Cubic.EaseIn<br>
-	 * Easing.Cubic.EaseOut<br>
-	 * Easing.Cubic.EaseInOut<br>
-	 * Easing.Quartic.EaseIn<br>
-	 * Easing.Quartic.EaseOut<br>
-	 * Easing.Quartic.EaseInOut<br>
-	 * Easing.Quintic.EaseIn<br>
-	 * Easing.Quintic.EaseOut<br>
-	 * Easing.Quintic.EaseInOut<br>
-	 * Easing.Sinusoidal.EaseIn<br>
-	 * Easing.Sinusoidal.EaseOut<br>
-	 * Easing.Sinusoidal.EaseInOut<br>
-	 * Easing.Exponential.EaseIn<br>
-	 * Easing.Exponential.EaseOut<br>
-	 * Easing.Exponential.EaseInOut<br>
-	 * Easing.Circular.EaseIn<br>
-	 * Easing.Circular.EaseOut<br>
-	 * Easing.Circular.EaseInOut<br>
-	 * Easing.Elastic.EaseIn<br>
-	 * Easing.Elastic.EaseOut<br>
-	 * Easing.Elastic.EaseInOut<br>
-	 * Easing.Back.EaseIn<br>
-	 * Easing.Back.EaseOut<br>
-	 * Easing.Back.EaseInOut<br>
-	 * Easing.Bounce.EaseIn<br>
-	 * Easing.Bounce.EaseOut<br>
+	 * Easing Function :<p>
+	 * Easing.Linear.EaseNone<p>
+	 * Easing.Quadratic.EaseIn<p>
+	 * Easing.Quadratic.EaseOut<p>
+	 * Easing.Quadratic.EaseInOut<p>
+	 * Easing.Cubic.EaseIn<p>
+	 * Easing.Cubic.EaseOut<p>
+	 * Easing.Cubic.EaseInOut<p>
+	 * Easing.Quartic.EaseIn<p>
+	 * Easing.Quartic.EaseOut<p>
+	 * Easing.Quartic.EaseInOut<p>
+	 * Easing.Quintic.EaseIn<p>
+	 * Easing.Quintic.EaseOut<p>
+	 * Easing.Quintic.EaseInOut<p>
+	 * Easing.Sinusoidal.EaseIn<p>
+	 * Easing.Sinusoidal.EaseOut<p>
+	 * Easing.Sinusoidal.EaseInOut<p>
+	 * Easing.Exponential.EaseIn<p>
+	 * Easing.Exponential.EaseOut<p>
+	 * Easing.Exponential.EaseInOut<p>
+	 * Easing.Circular.EaseIn<p>
+	 * Easing.Circular.EaseOut<p>
+	 * Easing.Circular.EaseInOut<p>
+	 * Easing.Elastic.EaseIn<p>
+	 * Easing.Elastic.EaseOut<p>
+	 * Easing.Elastic.EaseInOut<p>
+	 * Easing.Back.EaseIn<p>
+	 * Easing.Back.EaseOut<p>
+	 * Easing.Back.EaseInOut<p>
+	 * Easing.Bounce.EaseIn<p>
+	 * Easing.Bounce.EaseOut<p>
 	 * Easing.Bounce.EaseInOut
-	 * </p>
 	 * @public
-	 * @constant
 	 * @type enum
 	 * @name me.Tween#Easing
 	 */
