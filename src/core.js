@@ -1582,7 +1582,7 @@ window.me = window.me || {};
 		 * me.game.sort(mySort);
 		 */
 
-		api.sort = function(sort_func) {
+		api.sort = function(sort_func, iso_sort_func) {
 			// do nothing if there is already 
 			// a previous pending sort
 			if (pendingSort === null) {
@@ -1592,16 +1592,41 @@ window.me = window.me || {};
 					sort_func = default_sort_func;
 				}
 				/** @private */
-				pendingSort = (function (sort_func) {
+				pendingSort = (function (sort_func, iso_sort_func) {
 					// sort everything
 					gameObjects.sort(sort_func);
+					if(typeof(iso_sort_func) === "function") {
+						//Create a temporary array of objects, and reset the old one
+						var tempArr = gameObjects.slice(0);
+						gameObjects = [];
+						for(var i=0; i<tempArr.length; i++){
+							var obj = tempArr[i];
+							insert_sorted(obj, iso_sort_func);
+						}
+					}
 					// clear the defer id
 					pendingSort = null;
 					// make sure we redraw everything
 					me.game.repaint();
-				}).defer(sort_func);
+				}).defer(sort_func, iso_sort_func);
 			};
 		};
+		
+		/**
+		* Private function inserting isometric z-ordered objects
+		*/
+		insert_sorted = function(obj, isBehind){
+			var added = false;
+ 
+			for(var i = 0; i < gameObjects.length; i++){
+				if(isBehind(gameObjects[i], obj)){
+					gameObjects.splice(i, 0, obj);
+					added = true;
+					break;
+				}
+			}
+ 			if(!added) gameObjects.push(obj);
+		}
 
 		/**
 		 * Checks if the specified entity collides with others entities.
