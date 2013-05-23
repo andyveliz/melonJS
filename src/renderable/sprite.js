@@ -96,7 +96,7 @@
 
 			// scale factor of the object
 			this.scale = new me.Vector2d(1.0, 1.0);
-			this.lastflipX = this.lastflipY = false,
+			this.lastflipX = this.lastflipY = false;
 			this.scaleFlag = false;
 
 			// set the default sprite index & offset
@@ -334,7 +334,7 @@
 	 * @constructor
 	 * @param {int} x the x coordinates of the sprite object
 	 * @param {int} y the y coordinates of the sprite object
-	 * @param {me.loader#getImage} Image reference of the animation sheet
+	 * @param {Image} image reference of the animation sheet
 	 * @param {int} spritewidth width of a single sprite within the spritesheet
 	 * @param {int} [spriteheight] height of a single sprite within the spritesheet (value will be set to the image height if not specified)
 	 */
@@ -493,7 +493,9 @@
 		 * // set "eat" animation, and switch to "walk" when complete
 		 * this.setCurrentAnimation("eat", "walk");
 		 * // set "die" animation, and remove the object when finished
-		 * this.setCurrentAnimation("die", function(){me.game.remove(this)});
+		 * this.setCurrentAnimation("die", (function () {
+		 *    me.game.remove(this);
+		 * }).bind(this));
 		 **/
 
 		setCurrentAnimation : function(name, resetAnim) {

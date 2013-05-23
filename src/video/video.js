@@ -314,13 +314,8 @@
 		 * @return {me.Vector2d}
 		 */
 		api.getPos = function(c) {
-			var obj = c || canvas;
-			var offset = new me.Vector2d(obj.offsetLeft, obj.offsetTop);
-			while ( obj = obj.offsetParent ) {
-				offset.x += obj.offsetLeft;
-				offset.y += obj.offsetTop;
-			} 
-			return offset;
+			var c = c || canvas;
+			return c.getBoundingClientRect?c.getBoundingClientRect():{left:0,top:0};
 		};
 
 		/**
@@ -453,7 +448,7 @@
 				return;
 			}
 			// make sure we have the correct relative canvas position cached
-			me.input.mouse.offset = me.video.getPos();
+			me.input.offset = me.video.getPos();
 		};
 		
 		/**
@@ -471,7 +466,7 @@
 			canvas.height = game_height_zoom = backBufferCanvas.height * scaleY;
 			
 			// make sure we have the correct relative canvas position cached
-			me.input.mouse.offset = me.video.getPos();
+			me.input.offset = me.video.getPos();
 
 			// force a canvas repaint
 			api.blitSurface();

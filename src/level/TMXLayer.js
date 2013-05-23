@@ -50,7 +50,10 @@
 
 		/**
 		 * set the layer alpha channel value<br>
-		 * @param {alpha} alpha opacity value between 0 and 1
+		 * @name setOpacity
+		 * @memberOf me.ColorLayer
+		 * @function
+		 * @param {Number} alpha opacity value between 0 and 1
 		 */
 		setOpacity : function(alpha) {
 			if (typeof(alpha) === "number") {
@@ -228,7 +231,10 @@
 
 		/**
 		 * set the layer alpha channel value<br>
-		 * @param {alpha} alpha opacity value between 0 and 1
+		 * @name setOpacity
+		 * @memberOf me.ImageLayer
+		 * @function
+		 * @param {Number} alpha opacity value between 0 and 1
 		 */
 		setOpacity : function(alpha) {
 			if (typeof(alpha) === "number") {

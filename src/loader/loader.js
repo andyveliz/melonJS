@@ -132,6 +132,8 @@
 		var binList = {};
 		// contains all the texture atlas files
 		var atlasList = {};
+		// contains all the JSON files
+		var jsonList = {};
 		// flag to check loading status
 		var resourceCount = 0;
 		var loadCount = 0;
@@ -277,7 +279,7 @@
 					// (With Chrome use "--allow-file-access-from-files --disable-web-security")
 					if ((xmlhttp.status==200) || ((xmlhttp.status==0) && xmlhttp.responseText)){
 						// get the Texture Packer Atlas content
-						atlasList[data.name] = JSON.parse(xmlhttp.responseText);
+						jsonList[data.name] = JSON.parse(xmlhttp.responseText);
 						// fire the callback
 						onload();
 					} else {
@@ -409,8 +411,8 @@
 		 *   {name: "cling",   type: "audio",  src: "data/audio/",  channel: 2},
 		 *   // binary file
 		 *   {name: "ymTrack", type: "binary", src: "data/audio/main.ym"},
-		 *   // texturePacker
-		 *   {name: "texture", type: "tps", src: "data/gfx/texture.json"}
+		 *   // JSON file (used for texturePacker) 
+		 *   {name: "texture", type: "json", src: "data/gfx/texture.json"}
 		 * ];
 		 * ...
 		 *
@@ -430,7 +432,7 @@
 		 * Load a single resource (to be used if you need to load additional resource during the game)<br>
 		 * Given parmeter must contain the following fields :<br>
 		 * - name    : internal name of the resource<br>
-		 * - type    : "binary", "image", "tmx", "tsx", "audio", "tps"
+		 * - type    : "audio", binary", "image", "json", "tmx", "tsx"
 		 * - src     : path and file name of the resource<br>
 		 * (!) for audio :<br>
 		 * - src     : path (only) where resources are located<br>
@@ -471,8 +473,8 @@
 					// reuse the preloadImage fn
 					preloadImage.call(this, res, onload, onerror);
 					return 1;
-				
-				case "tps":
+
+				case "json":
 					preloadJSON.call(this, res, onload, onerror);
 					return 1;
 
@@ -522,11 +524,11 @@
 					delete imgList[res.name];
 					return true;
 
-				case "tps":
-					if (!(res.name in atlasList))
+				case "json":
+					if(!(res.name in jsonList))
 						return false;
 
-					delete atlasList[res.name];
+					delete jsonList[res.name];
 					return true;
 					
 				case "tmx":
@@ -569,6 +571,10 @@
 			
 			// unload all atlas resources
 			for (name in atlasList)
+				obj.unload(name);
+
+			// unload all in json resources
+			for (name in jsonList)
 				obj.unload(name);
 
 			// unload all audio resources
@@ -633,25 +639,6 @@
 			}
 
 		};
-		
-		/**
-		 * return the specified Atlas object
-		 * @name me.loader#getAtlas
-		 * @public
-		 * @function
-		 * @param {String} name of the atlas object;
-		 * @return {Object} 
-		 */
-		obj.getAtlas = function(elt) {
-			// avoid case issue
-			elt = elt.toLowerCase();
-			if (elt in atlasList)
-				return atlasList[elt];
-			else {
-				//console.log ("warning %s resource not yet loaded!",name);
-				return null;
-			}
-		};
 
 
 		/**
@@ -685,6 +672,25 @@
 			}
 
 		};
+
+		/**
+		 * return the specified JSON Object
+		 * @name getJSON
+		 * @memberOf me.loader
+		 * @public
+		 * @function
+		 * @param {String} Name for the json file to load
+		 * @return {Object} 
+		 */
+		obj.getJSON = function(elt) {
+			elt = elt.toLowerCase();
+			if(elt in jsonList) {
+				return jsonList[elt];
+			}
+			else {
+				return null;
+			}
+		}
 
 		/**
 		 * Return the loading progress in percent

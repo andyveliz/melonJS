@@ -21,6 +21,7 @@ and currently features :
 - Transition effects
 - A basic set of Object Entities (to be extended)
 - Basic animation management
+- Standard spritesheet and Packed Textures (Texture Packer, ShoeBox) support
 - A state manager (to easily manage loading, menu, options, in-game state)
 - Tiled map format version +0.9.x integration for easy level design
 	- Uncompressed Plain, Base64 and CSV encoded XML tilemap loading

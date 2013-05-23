@@ -13,7 +13,7 @@
  * You generally should not add new properties to this namespace as it may be overwritten in future versions.
  * @namespace
  */
-var me = me || {};
+window.me = window.me || {};
 
 (function($) {
 	// Use the correct document accordingly to window argument
@@ -138,14 +138,6 @@ var me = me || {};
 		 * @memberOf me.sys
 		 */
 		gravity : undefined,
-
-		/**
-		 * Use native "requestAnimFrame" function if supported <br>
-		 * fallback to clearInterval if not supported by the browser<br>
-		 * @type Boolean
-		 * @memberOf me.sys
-		 */
-		useNativeAnimFrame : false,
 
 		/**
 		 * cache Image using a Canvas element, instead of directly using the Image Object<br>
@@ -527,6 +519,40 @@ var me = me || {};
 			return bound;
 		};
 	}
+
+	if (!window.throttle) {
+		/**
+		 * a simple throttle function 
+		 * use same fct signature as the one in prototype
+		 * in case it's already defined before
+		 * @ignore
+		 */
+		window.throttle = function( delay, no_trailing, callback, debounce_mode ) {
+			var last = Date.now(), deferTimer;
+			// `no_trailing` defaults to false.
+			if ( typeof no_trailing !== 'boolean' ) {
+			  no_trailing = false;
+			}
+			return function () {
+				var now = Date.now();
+				var elasped = now - last;
+				var args = arguments;
+				if (elasped < delay) {
+					if (no_trailing === false) {
+						// hold on to it
+						clearTimeout(deferTimer);
+						deferTimer = setTimeout(function () {
+							last = now;
+							return callback.apply(null, args);
+						}, elasped);
+					}
+				} else {
+					last = now;
+					return callback.apply(null, args);
+				}
+			}
+		};
+	};
 	
 	
 	if (typeof Date.now === "undefined") {
@@ -787,8 +813,14 @@ var me = me || {};
 		// detect audio capabilities
 		me.audio.detectCapabilities();
 		
+		// future proofing (MS) feature detection
+		navigator.pointerEnabled = navigator.pointerEnabled || navigator.msPointerEnabled;
+		navigator.maxTouchPoints = navigator.maxTouchPoints || navigator.msMaxTouchPoints || 0;
+		window.gesture = window.gesture || window.MSGesture;
+		
 		// detect touch capabilities
-		me.sys.touch = ('createTouch' in document) || ('ontouchstart' in $) || (navigator.isCocoonJS);
+		me.sys.touch = ('createTouch' in document) || ('ontouchstart' in $) || 
+		               (navigator.isCocoonJS) || (navigator.maxTouchPoints > 0);
 		
 		// detect platform
 		me.sys.isMobile = me.sys.ua.match(/Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i);
